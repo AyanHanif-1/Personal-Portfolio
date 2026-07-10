@@ -1,0 +1,62 @@
+{% extends 'portfolio_app/base.html' %}
+{% load static %}
+{% block title %}Projects | My Work{% endblock %}
+{% block content %}
+<section class="projects-page-section container">
+    <div class="section-header center-align">
+        <span class="section-tag">Showcase</span>
+        <h2 class="section-heading">Featured Projects</h2>
+        <p class="section-subtext">A curated selection of Projects</p>
+    </div>
+    <!-- Dynamic Projects Responsive Grid -->
+    <div class="projects-grid">
+        {% for project in projects %}
+        <article class="project-card glass-card">
+            <div class="project-image-wrapper">
+                {% if project.image %}
+                    <img src="{% static 'portfolio_app/images/projects/' %}{{ project.image }}" alt="{{ project.title }}" class="project-image">
+                {% else %}
+                    <!-- Safe fallback default graphic if model image is blank -->
+                    <img src="{% static 'portfolio_app/images/project-placeholder.png' %}" alt="{{ project.title }}" class="project-image">
+                {% endif %}
+                <div class="project-image-overlay">
+                    <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="project-overlay-link" aria-label="Visit project website">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="project-card-content">
+                <h3 class="project-title">{{ project.title }}</h3>
+                <p class="project-description">{{ project.description }}</p>
+                
+                <div class="project-tech-badges">
+                    <!-- Display technologies list or text -->
+                    <span class="tech-badge"><i class="fas fa-code"></i> {{ project.technologies }}</span>
+                </div>
+                
+                <div class="project-actions">
+                    <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="btn btn-card btn-primary">
+                        <span>Live Demo</span> <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="btn btn-card btn-outline">
+                        <i class="fab fa-github"></i> <span>GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </article>
+        {% empty %}
+        <div class="no-projects-fallback card-hover-effect">
+            <div class="fallback-icon">
+                <i class="fas fa-folder-open"></i>
+            </div>
+            <h3>No Projects Available</h3>
+            <p>I am currently updating this section with new open-source codebases. Please check back shortly or visit my GitHub.</p>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                <i class="fab fa-github"></i> <span>Follow Me on GitHub</span>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

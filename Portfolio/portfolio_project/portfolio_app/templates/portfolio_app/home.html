@@ -1,0 +1,134 @@
+{% extends 'portfolio_app/base.html' %}
+{% load static %}
+{% block title %}Home | Professional Portfolio{% endblock %}
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-container container">
+        <div class="hero-content">
+            <span class="hero-subheading">Welcome to my space</span>
+            <h1 class="hero-name">Ayan Hanif</h1>
+            <h2 class="hero-title-scroller">
+                <span class="title-text">Django Developer &#124; Python developer</span>
+            </h2>
+            <p class="hero-desc">
+               I'm an aspiring Python and Django Developer passionate about building modern, responsive, and
+               user-friendly web applications.
+            </p>
+            <div class="hero-actions">
+                <a href="{% url 'projects' %}" class="btn btn-primary">
+                    <span>View Projects</span> <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="{% url 'contact' %}" class="btn btn-secondary">
+                    <span>Contact Me</span> <i class="far fa-paper-plane"></i>
+                </a>
+            </div>
+        </div>
+        <div class="hero-image-container">
+            <div class="profile-glow-ring"></div>
+            <div class="profile-image-wrapper">
+                <img src="{% static 'portfolio_app/images/profile.png' %}" alt="Profile Picture" class="profile-image">
+            </div>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <span class="mouse-wheel"></span>
+    </div>
+</section>
+<!-- About Me Section -->
+<section class="about-section container" id="about">
+    <div class="section-header">
+        <span class="section-tag">About Me</span>
+        <h2 class="section-heading">My Professional Journey</h2>
+    </div>
+    
+    <div class="about-grid">
+        <div class="about-main-text">
+            <p class="lead-bio">
+                I'm a passionate Python and Django enthusiast with a strong foundation in web development,
+                object-oriented programming, and database integration. I enjoy turning ideas into clean, functional, and
+                responsive web applications.
+            </p>
+            <p class="detail-bio">
+                As a student, I'm constantly learning and exploring new technologies through hands-on projects. I'm eager
+                to gain real-world experience and continue growing as a full-stack developer.
+            </p>
+            <div class="career-goal-box">
+                <h4 class="box-title"><i class="fas fa-bullseye"></i> Career Goal</h4>
+                <p>To architect systems that solve real-world problems while driving innovation through clean code and scalable Python solutions.</p>
+            </div>
+        </div>
+        
+        <div class="about-cards-col">
+            <!-- Strength Card -->
+            <div class="about-card card-hover-effect">
+                <div class="card-icon-wrapper">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="card-body">
+                    <h3>Personal Strengths</h3>
+                    <ul>
+                        <li>Strong Problem-solving</li>
+                        <li>Quick Learner</li>
+                        <li>Detail-Oriented Developer</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Experience Card -->
+            <div class="about-card card-hover-effect">
+                <div class="card-icon-wrapper">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="card-body">
+                    <h3>Experience</h3>
+                    <div class="experience-item">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <p class="experience-description">Currently building experience through academic and personal projects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Skills Section -->
+<section class="skills-section">
+    <div class="skills-container container">
+        <div class="section-header center-align">
+            <span class="section-tag">Expertise</span>
+            <h2 class="section-heading">Technical Skills & Proficiency</h2>
+        </div>
+        
+        <div class="skills-grid">
+            {% for skill in skills %}
+            <div class="skill-card">
+                <div class="skill-info">
+                    <span class="skill-name">{{ skill.name }}</span>
+                    <span class="skill-percentage">{{ skill.level }}%</span>
+                </div>
+                <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="width: {{ skill.level }}%;"></div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-data-card">
+                <i class="fas fa-info-circle no-data-icon"></i>
+                <p>No skills added yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Call To Action Section -->
+<section class="cta-section">
+    <div class="cta-glow-bg"></div>
+    <div class="cta-container container">
+        <h2 class="cta-title">Let's Build Something Amazing Together</h2>
+        <p class="cta-text">
+            Whether you have a complex system to engineer or an innovative concept to bring to life, my virtual door is always open. Let's create high-quality SaaS applications with Django.
+        </p>
+        <a href="{% url 'contact' %}" class="btn btn-primary btn-large">
+            <span>Get In Touch</span> <i class="far fa-paper-plane"></i>
+        </a>
+    </div>
+</section>
+{% endblock %}

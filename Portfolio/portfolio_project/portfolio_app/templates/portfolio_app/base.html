@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MyPortfolio | Professional Django Developer{% endblock %}</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% block meta_description %}Welcome to my professional developer portfolio. I build clean, high-performance web applications using Django, Python, and modern frontend technologies.{% endblock %}">
+    <meta name="keywords" content="Django Developer, Full Stack Developer, Python Developer, Portfolio, Software Engineer">
+    <meta name="author" content="Portfolio Owner">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}MyPortfolio | Professional Django Developer{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Welcome to my professional developer portfolio. I build clean, high-performance web applications.{% endblock %}">
+    
+    <!-- Favicon Placeholder -->
+    <link rel="icon" type="image/png" href="{% static 'portfolio_app/images/favicon.png' %}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Main Custom CSS -->
+    <link rel="stylesheet" href="{% static 'portfolio_app/css/style.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar-container" id="main-navbar">
+        <div class="navbar-wrapper">
+            <a href="{% url 'home' %}" class="logo">
+                <span class="accent">&lt;</span>MyPortfolio<span class="accent">/&gt;</span>
+            </a>
+            
+            <nav class="nav-menu" id="nav-links">
+                <a href="{% url 'home' %}" class="nav-item" id="nav-home">Home</a>
+                <a href="{% url 'projects' %}" class="nav-item" id="nav-projects">Projects</a>
+                <a href="{% url 'contact' %}" class="nav-item" id="nav-contact">Contact</a>
+            </nav>
+            
+            <!-- Mobile Menu Toggle Button (Hamburger) -->
+            <button class="mobile-toggle" aria-label="Toggle Navigation Menu" id="mobile-toggle-btn">
+                <span class="bar bar-1"></span>
+                <span class="bar bar-2"></span>
+                <span class="bar bar-3"></span>
+            </button>
+        </div>
+    </header>
+    <!-- Main Content Content Block -->
+    <main class="main-content-area">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <!-- Footer -->
+    <footer class="footer-container">
+        <div class="footer-wrapper">
+            <div class="footer-top">
+                <a href="{% url 'home' %}" class="footer-logo">
+                    <span class="accent">&lt;</span>MyPortfolio<span class="accent">/&gt;</span>
+                </a>
+                <p class="footer-tagline">Crafting digital experiences with precision, clean code, and elegant architecture.</p>
+                <div class="social-links-row">
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="mailto:contact@example.com" class="social-icon" aria-label="Email">
+                        <i class="far fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="footer-bottom">
+                <p class="copyright">&copy; {% now "Y" %} MyPortfolio. All Rights Reserved.</p>
+                <button class="back-to-top" id="scroll-to-top-btn" aria-label="Back to Top">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+            </div>
+        </div>
+    </footer>
+    <!-- Core Interactive Client Script (Non-Inline JavaScript) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('main-navbar');
+            const mobileToggle = document.getElementById('mobile-toggle-btn');
+            const navLinks = document.getElementById('nav-links');
+            const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
+            // 1. Shrink Navbar on Scroll
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('navbar-shrunk');
+                } else {
+                    navbar.classList.remove('navbar-shrunk');
+                }
+                
+                // Show/hide back to top button
+                if (window.scrollY > 500) {
+                    scrollToTopBtn.classList.add('back-to-top-visible');
+                } else {
+                    scrollToTopBtn.classList.remove('back-to-top-visible');
+                }
+            });
+            // 2. Toggle Mobile Navigation Menu
+            mobileToggle.addEventListener('click', () => {
+                mobileToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                document.body.classList.toggle('overflow-hidden');
+            });
+            // Close mobile menu when clicking a link
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    mobileToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.classList.remove('overflow-hidden');
+                });
+            });
+            // 3. Highlight Active Navigation Item based on URL
+            const currentPath = window.location.pathname;
+            navItems.forEach(item => {
+                const itemHref = item.getAttribute('href');
+                if (currentPath === itemHref || (currentPath === '/' && itemHref.includes('home'))) {
+                    item.classList.add('active');
+                } else {
+                    // Match fallback url pattern names if pathnames are exact
+                    if (currentPath.endsWith('/projects/') && itemHref.includes('projects')) {
+                        item.classList.add('active');
+                    } else if (currentPath.endsWith('/contact/') && itemHref.includes('contact')) {
+                        item.classList.add('active');
+                    } else if ((currentPath === '/' || currentPath.endsWith('/home/')) && itemHref.includes('home')) {
+                        item.classList.add('active');
+                    }
+                }
+            });
+            // 4. Smooth Scroll to Top
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            // 5. Alert Dismissal Handling
+            const alertCloseButtons = document.querySelectorAll('.alert-close');
+            alertCloseButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const alert = button.closest('.alert');
+                    if (alert) {
+                        alert.style.opacity = '0';
+                        alert.style.transform = 'translateY(-10px)';
+                        setTimeout(() => {
+                            alert.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
